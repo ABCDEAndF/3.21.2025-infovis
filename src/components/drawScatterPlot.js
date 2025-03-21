@@ -36,7 +36,7 @@ export let drawScatterPlot = (scatterPlotLayer, data, xScale, yScale, tooltip, s
               .style('fill', 'red')
               .raise();
       })
-      .on('mouseout', (event, d) => {
+      .on('mouseout', (event) => {
           the_tooltip.style("opacity", 0)
               .html("");
           d3.select(".cover").remove();

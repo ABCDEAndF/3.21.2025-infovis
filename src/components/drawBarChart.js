@@ -13,7 +13,7 @@ export let drawBarChart = (barChartLayer, data, xScale, yScale, barChartWidth, b
       .style("fill", 'steelblue')
       .style("stroke", "black")
       .style("stroke-width", 2)
-      .on("mouseover", (event, d) => {
+      .on("mouseover", (event) => {
           d3.selectAll(`.${event.currentTarget.classList[1]}`)
               .style('fill', 'red');
           d3.selectAll(`.${event.currentTarget.classList[1]}`)
@@ -21,7 +21,7 @@ export let drawBarChart = (barChartLayer, data, xScale, yScale, barChartWidth, b
               .attr('r', '10')
               .raise();
       })
-      .on("mouseout", (event, d) => {
+      .on("mouseout", (event) => {
           d3.selectAll(`.${event.currentTarget.classList[1]}`)
               .style('fill', 'steelblue');
           d3.selectAll(`.${event.currentTarget.classList[1]}`)
