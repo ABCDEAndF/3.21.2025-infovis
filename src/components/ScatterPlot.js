@@ -23,7 +23,7 @@ export default function ScatterPlot(props) {
             .style("position", "absolute");
 
         d3.selectAll('.point').remove();
-      
+        
         const spl = svg.append("g")
             .attr("id", "scatter-plot")
             .attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
@@ -38,13 +38,13 @@ export default function ScatterPlot(props) {
             .append("text")
             .style("text-anchor", "middle")
             .text("Trip duration start from");
-       
+        
         spl.append('g')
             .attr('class', 'y-axis')
             .call(yAxis_spl);
 
         spl.append("g")
-            .attr("transform", `translate(-50, ${height/2}) rotate(-90)`)
+            .attr("transform", `translate(-40, ${height/2}) rotate(-90)`)
             .append("text")
             .style("text-anchor", "middle")
             .text("Number of trips");

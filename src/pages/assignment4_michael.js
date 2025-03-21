@@ -30,18 +30,19 @@ const Charts = () => {
 
     if (!dataAll) {
         return <pre>Loading...</pre>;
-    };
+    }
     const WIDTH = 600;
     const HEIGHT = 400;
-    const margin = { top: 20, right: 20, bottom: 20, left: 35};
+    const margin = { top: 20, right: 20, bottom: 20, left: 60 }; // 增加左侧边距
     const innerHeightScatter = HEIGHT - margin.top - margin.bottom;
-    const innerHeightBar = HEIGHT - margin.top - margin.bottom-120;
+    const innerHeightBar = HEIGHT - margin.top - margin.bottom - 120;
     const innerWidth = WIDTH - margin.left - margin.right;
     const MONTH = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const data = dataAll.filter( d => { 
+    const data = dataAll.filter(d => { 
         return d.month === MONTH[month] 
     });
 
+    const station = data.map(d => d.station);
     const xScaleScatter = d3.scaleLinear()
         .domain([0, d3.max(dataAll, d => d.tripdurationS)])
         .range([0, innerWidth])
@@ -52,24 +53,26 @@ const Charts = () => {
         .nice();
 
     const xScaleBar = d3.scaleBand()
-        .domain(data.map(d => d.station))
-        .range([0, innerWidth])
+        .domain(station)
+        .range([0, innerWidth]) // 修正 range
         .padding(0.1);
 
     const yScaleBar = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.tripdurationS)])
+        .domain([0, d3.max(data, d => d.tripdurationS)]) // 修正为 tripdurationS
         .range([innerHeightBar, 0])
         .nice();
+
+    const maxTripDuration = d3.max(data, d => d.tripdurationS);
 
     const changeHandler = (event) => {
         setMonth(event.target.value);
     };
 
     return (
-        <Container >
+        <Container>
             <Row>
                 <Col lg={3} md={2}>
-                    <input key="slider" type='range' min='0' max='11' value={month} onChange={changeHandler}/>
+                    <input key="slider" type='range' min='0' max='11' value={month} step='1' onChange={changeHandler}/>
                     <input key="monthText" type="text" value={MONTH[month]} readOnly/>
                 </Col>
             </Row>
@@ -80,7 +83,7 @@ const Charts = () => {
                 </Col>
                 <Col>
                     <BarChart svgWidth={WIDTH} svgHeight={HEIGHT} marginLeft={margin.left} marginTop={margin.bottom} data={data} xScale={xScaleBar} 
-                        yScale={yScaleBar} />
+                        yScale={yScaleBar} maxTripDuration={maxTripDuration} />
                 </Col>
             </Row>
         </Container>
